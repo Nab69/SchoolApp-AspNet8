@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SchoolWeb.Filters;
 using SchoolWeb.Models;
 using System.Diagnostics;
 
@@ -21,6 +22,12 @@ namespace SchoolWeb.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [CustomExceptionFilter]
+        public IActionResult CustomError()
+        {
+            throw new NotImplementedException();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
