@@ -67,7 +67,8 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Create()
         {
-            return Content("création", "text/plain", Encoding.UTF8);
+            return View();
+            //return Content("création", "text/plain", Encoding.UTF8);
         }
 
         [HttpPost]
