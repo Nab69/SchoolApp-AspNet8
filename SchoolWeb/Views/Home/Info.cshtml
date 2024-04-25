@@ -1,0 +1,9 @@
+﻿@inject SchoolWeb.Services.IInformationService Info
+
+<dl>
+    <dt>Nom de l'application</dt>
+    <dd>@Info.GetApplicationName()</dd>
+
+    <dt>Environment de l'application</dt>
+    <dd>@Info.GetEnvironmentName()</dd>
+</dl>

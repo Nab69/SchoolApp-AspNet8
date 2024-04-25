@@ -23,6 +23,12 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
+        [ActionName("Info")]
+        public IActionResult Information()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

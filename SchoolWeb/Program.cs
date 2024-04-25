@@ -1,9 +1,11 @@
 using SchoolWeb.Middlewares;
+using SchoolWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IInformationService, InformationService>();
 
 var app = builder.Build();
 
