@@ -1,4 +1,6 @@
-﻿namespace DomainModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DomainModel
 {
     public class Person
     {
@@ -6,6 +8,7 @@
 
         public string FirstName { get; set; } = string.Empty;
 
+        [StringLength(50)]
         public string LastName { get; set; } = string.Empty;
     }
 }
