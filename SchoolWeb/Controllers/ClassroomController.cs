@@ -79,7 +79,15 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Edit(int id)
         {
-            return View();
+            var classroom = new Classroom()
+            {
+                ClassroomID = id,
+                Name = "Salle Bill Gates",
+                Corridor = "Bleu",
+                Floor = 2
+            };
+
+            return View(classroom);
         }
 
         [HttpPost]
