@@ -93,7 +93,15 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Delete(int id)
         {
-            return View();
+            var classroom = new Classroom()
+            {
+                ClassroomID = id,
+                Name = "Salle Bill Gates",
+                Corridor = "Bleu",
+                Floor = 2
+            };
+
+            return View(classroom);
         }
 
         [HttpPost]
