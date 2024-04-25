@@ -6,34 +6,34 @@ namespace SchoolWeb.Controllers
 {
     public class ClassroomController : Controller
     {
+        private static List<Classroom> classrooms = new List<Classroom>()
+        {
+            new Classroom()
+            {
+                ClassroomID = 1,
+                Name = "Salle Bill Gates",
+                Corridor = "Bleu",
+                Floor = 2
+            },
+            new Classroom()
+            {
+                ClassroomID = 2,
+                Name = "Salle Scott Hanselman",
+                Corridor = "Rouge",
+                Floor = 3
+            },
+            new Classroom()
+            {
+                ClassroomID = 3,
+                Name = "Salle Scott Guthrie",
+                Corridor = "Orange",
+                Floor = 3
+            }
+        };
+
         public IActionResult Index()
         {
-            var classrooms = new List<Classroom>()
-            {
-                new Classroom()
-                {
-                    ClassroomID = 1,
-                    Name = "Salle Bill Gates",
-                    Corridor = "Bleu",
-                    Floor = 2
-                },
-                new Classroom()
-                {
-                    ClassroomID = 2,
-                    Name = "Salle Scott Hanselman",
-                    Corridor = "Rouge",
-                    Floor = 3
-                },
-                new Classroom()
-                {
-                    ClassroomID = 2,
-                    Name = "Salle Scott Guthrie",
-                    Corridor = "Orange",
-                    Floor = 3
-                }
-            };
-
-            return View(classrooms);
+            return View(ClassroomController.classrooms);
             //return View();
         }
 
@@ -44,13 +44,7 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Details(int id)
         {
-            var classroom = new Classroom()
-            {
-                ClassroomID = 1,
-                Name = "Salle Bill Gates",
-                Corridor = "Bleu",
-                Floor = 2
-            };
+            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
 
             return View(classroom);
             //return Ok();
@@ -74,18 +68,15 @@ namespace SchoolWeb.Controllers
         [HttpPost]
         public IActionResult Create(Classroom classroom)
         {
-            return View();
+            classroom.ClassroomID = ClassroomController.classrooms.Select(c => c.ClassroomID).Max() + 1;
+            ClassroomController.classrooms.Add(classroom);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(int id)
         {
-            var classroom = new Classroom()
-            {
-                ClassroomID = id,
-                Name = "Salle Bill Gates",
-                Corridor = "Bleu",
-                Floor = 2
-            };
+            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
 
             return View(classroom);
         }
@@ -96,18 +87,18 @@ namespace SchoolWeb.Controllers
             if (id != classroom.ClassroomID)
                 return View("Error");
 
+            var classroomToChange = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+
+            classroomToChange.Name = classroom.Name;
+            classroomToChange.Floor = classroom.Floor;
+            classroomToChange.Corridor = classroom.Corridor;
+
             return View();
         }
 
         public IActionResult Delete(int id)
-        {
-            var classroom = new Classroom()
-            {
-                ClassroomID = id,
-                Name = "Salle Bill Gates",
-                Corridor = "Bleu",
-                Floor = 2
-            };
+       {
+            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
 
             return View(classroom);
         }
@@ -116,7 +107,10 @@ namespace SchoolWeb.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            return View();
+            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+            ClassroomController.classrooms.Remove(classroom);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
