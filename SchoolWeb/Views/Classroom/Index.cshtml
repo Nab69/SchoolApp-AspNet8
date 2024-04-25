@@ -1,0 +1,22 @@
+﻿@model IEnumerable<DomainModel.Classroom>
+
+<h1>--- Liste des classes ---</h1>
+
+@foreach (var classroom in Model)
+{
+    <h2>Classe @classroom.Name</h2>
+
+    <dl>
+        <dt>ID de la classe : </dt>
+        <dd>@classroom.ClassroomID</dd>
+
+        <dt>Nom : </dt>
+        <dd>@classroom.Name</dd>
+
+        <dt>Etage : </dt>
+        <dd>@classroom.Floor</dd>
+
+        <dt>Couloir : </dt>
+        <dd>@classroom.Corridor</dd>
+    </dl>
+}
