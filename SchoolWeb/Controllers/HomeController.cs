@@ -1,3 +1,4 @@
+using DomainModel;
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Models;
 using System.Diagnostics;
@@ -16,7 +17,6 @@ namespace SchoolWeb.Controllers
         public IActionResult Index()
         {
             ViewBag.Message = "Bonjour à tous !";
-
             return View();
         }
 
