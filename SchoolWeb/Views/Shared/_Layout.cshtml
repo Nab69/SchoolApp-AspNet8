@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using SchoolWeb.Services
+@inject IInformationService Info
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,6 +41,9 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - SchoolWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <environment include="staging,development">
+                <p>L’environnement actuel est : @Info.GetEnvironmentName()</p>
+            </environment>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
