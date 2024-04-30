@@ -1,0 +1,20 @@
+﻿body {
+    color: DimGray;
+}
+
+h1, h2 {
+    color: DarkGray;
+}
+
+div {
+    border: black 1px solid;
+}
+
+div ul {
+    list-style: disc;
+}
+
+div ul li > a {
+    color: DarkGray;
+    font-weight: bold;
+}

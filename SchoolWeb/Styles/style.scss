@@ -1,0 +1,22 @@
+﻿$primary-color: DimGray;
+$secondary-color: DarkGray;
+
+body {
+    color: $secondary-color;
+}
+
+h1, h2 {
+    color: $primary-color;
+}
+
+div {
+    border: black 1px solid;
+    ul {
+        list-style: disc;
+
+        li > a {
+            color: $primary-color;
+            font-weight: bold;
+        }
+    }
+}
