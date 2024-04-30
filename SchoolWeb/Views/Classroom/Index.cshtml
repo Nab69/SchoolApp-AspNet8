@@ -1,10 +1,15 @@
 ﻿@model IEnumerable<DomainModel.Classroom>
 
-<h1>--- Liste des classes ---</h1>
+
+
+
+<h2>--- Liste des classes ---</h2>
+
+<p><a asp-action="Create">Create une nouvelle classe</a></p>
 
 @foreach (var classroom in Model)
 {
-    <h2>Classe @classroom.Name</h2>
+    <h3>Classe @classroom.Name</h3>
 
     <dl>
         <dt>ID de la classe : </dt>
@@ -19,4 +24,16 @@
         <dt>Couloir : </dt>
         <dd>@classroom.Corridor</dd>
     </dl>
+
+    <ul class="nav">
+        <li class="nav-item">
+            <a asp-action="Details" asp-route-id="@classroom.ClassroomID" class="nav-link">Détails</a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="Edit" asp-route-id="@classroom.ClassroomID" class="nav-link">Modifier</a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="Delete" asp-route-id="@classroom.ClassroomID" class="nav-link">Supprimer</a>
+        </li>
+    </ul>
 }
