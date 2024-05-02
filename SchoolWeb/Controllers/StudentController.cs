@@ -3,49 +3,32 @@ using NuGet.ContentModel;
 using System.Net;
 using System;
 using DomainModel;
+using Dal;
 
 namespace SchoolWeb.Controllers
 {
     //[Route("Stud")]
     public class StudentController : Controller
     {
-        private static List<Student> students = new()
+        private readonly SchoolContext context;
+
+        public StudentController(SchoolContext context)
         {
-            new Student() {
-                PersonID = 1,
-                FirstName = "Joey",
-                LastName = "Tribbiani",
-                Average = 8.5,
-                IsClassDelegate = false,
-            },
-            new Student() {
-                PersonID = 2,
-                FirstName = "Monica",
-                LastName = "Geller",
-                Average = 13.5,
-                IsClassDelegate = true,
-            },
-            new Student() {
-                PersonID = 3,
-                FirstName = "Chandler",
-                LastName = "Bing",
-                Average = 10.0,
-                IsClassDelegate = false,
-            },
-        };
+            this.context = context;
+        }
 
         public IActionResult Index()
         {
-            return View("_StudentList", StudentController.students);
+            return View("_StudentList", this.context.Students.ToList());
         }
 
         //[Route("Info/{studentid}")]
         public IActionResult Details(int id)
         {
-            var student = StudentController.students.SingleOrDefault(s => s.PersonID == id);
+            var student = this.context.Students.Find(id);
 
             if (student == null)
-                return View("Error");
+                return View("NotFound");
 
             return View(student);
         }
@@ -56,29 +39,74 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Create(Student student)
+        {
+            if(ModelState.IsValid)
+            {
+                this.context.Students.Add(student);
+                this.context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(student);
+        }
+
         public IActionResult List() 
         {
-            return View(StudentController.students);
+            return View(this.context.Students.ToList());
         }
 
         public IActionResult Edit(int id)
         {
-            var student = StudentController.students.SingleOrDefault(s => s.PersonID == id);
+            var student = this.context.Students.Find(id);
 
             if (student == null)
+                return View("NotFound");
+
+            return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, Student student)
+        {
+            if(id != student.PersonID)
                 return View("Error");
+
+            if (ModelState.IsValid)
+            {
+                this.context.Students.Update(student);
+                this.context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
 
             return View(student);
         }
 
         public IActionResult Delete(int id)
         {
-            var student = StudentController.students.SingleOrDefault(s => s.PersonID == id);
+            var student = this.context.Students.Find(id);
 
             if (student == null)
                 return View("Error");
 
             return View(student);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var student = this.context.Students.Find(id);
+
+            if (student == null)
+                return View("Error");
+
+            this.context.Students.Remove(student);
+            this.context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
