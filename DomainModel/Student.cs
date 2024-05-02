@@ -7,5 +7,6 @@
         public bool IsClassDelegate { get; set; }
 
         public Classroom? Classroom { get; set; }
+        public int? ClassroomID { get; set; }
     }
 }
