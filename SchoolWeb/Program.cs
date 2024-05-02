@@ -1,3 +1,5 @@
+using Dal;
+using Microsoft.EntityFrameworkCore;
 using SchoolWeb.Middlewares;
 using SchoolWeb.Services;
 
@@ -7,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IInformationService, InformationService>();
 builder.Services.AddWebOptimizer();
+builder.Services.AddDbContext<SchoolContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("SchoolDatabase")
+    )
+);
 
 var app = builder.Build();
 
