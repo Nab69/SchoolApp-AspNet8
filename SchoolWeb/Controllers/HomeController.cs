@@ -1,3 +1,4 @@
+using Dal;
 using DomainModel;
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Models;
@@ -28,6 +29,13 @@ namespace SchoolWeb.Controllers
         [ActionName("Info")]
         public IActionResult Information()
         {
+            return View();
+        }
+
+        public IActionResult CreateDb([FromServices] SchoolContext context)
+        {
+            context.Database.EnsureCreated();
+
             return View();
         }
 
