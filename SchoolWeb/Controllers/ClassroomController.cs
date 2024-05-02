@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using Dal;
+using DomainModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -6,34 +7,16 @@ namespace SchoolWeb.Controllers
 {
     public class ClassroomController : Controller
     {
-        private static List<Classroom> classrooms = new List<Classroom>()
+        private readonly SchoolContext context;
+
+        public ClassroomController(SchoolContext context)
         {
-            new Classroom()
-            {
-                ClassroomID = 1,
-                Name = "Salle Bill Gates",
-                Corridor = "Bleu",
-                Floor = 2
-            },
-            new Classroom()
-            {
-                ClassroomID = 2,
-                Name = "Salle Scott Hanselman",
-                Corridor = "Rouge",
-                Floor = 3
-            },
-            new Classroom()
-            {
-                ClassroomID = 3,
-                Name = "Salle Scott Guthrie",
-                Corridor = "Orange",
-                Floor = 3
-            }
-        };
+            this.context = context;
+        }
 
         public IActionResult Index()
         {
-            return View(ClassroomController.classrooms);
+            return View(this.context.Classrooms.ToList());
             //return View();
         }
 
@@ -44,7 +27,10 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Details(int id)
         {
-            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+            var classroom = this.context.Classrooms.Find(id);
+
+            if (classroom == null)
+                return View("notFound");
 
             return View(classroom);
             //return Ok();
@@ -68,15 +54,18 @@ namespace SchoolWeb.Controllers
         [HttpPost]
         public IActionResult Create(Classroom classroom)
         {
-            classroom.ClassroomID = ClassroomController.classrooms.Select(c => c.ClassroomID).Max() + 1;
-            ClassroomController.classrooms.Add(classroom);
+            this.context.Classrooms.Add(classroom);
+            this.context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(int id)
         {
-            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+            var classroom = this.context.Classrooms.FirstOrDefault(c => c.ClassroomID == id);
+
+            if (classroom == null)
+                return View("notFound");
 
             return View(classroom);
         }
@@ -87,18 +76,18 @@ namespace SchoolWeb.Controllers
             if (id != classroom.ClassroomID)
                 return View("Error");
 
-            var classroomToChange = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+            this.context.Classrooms.Update(classroom);
+            this.context.SaveChanges();
 
-            classroomToChange.Name = classroom.Name;
-            classroomToChange.Floor = classroom.Floor;
-            classroomToChange.Corridor = classroom.Corridor;
-
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
        {
-            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
+            var classroom = this.context.Classrooms.FirstOrDefault(c => c.ClassroomID == id);
+
+            if (classroom == null)
+                return View("notFound");
 
             return View(classroom);
         }
@@ -107,8 +96,13 @@ namespace SchoolWeb.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var classroom = ClassroomController.classrooms.FirstOrDefault(c => c.ClassroomID == id);
-            ClassroomController.classrooms.Remove(classroom);
+            var classroom = this.context.Classrooms.FirstOrDefault(c => c.ClassroomID == id);
+
+            if (classroom == null)
+                return View("notFound");
+
+            this.context.Classrooms.Remove(classroom);
+            this.context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
