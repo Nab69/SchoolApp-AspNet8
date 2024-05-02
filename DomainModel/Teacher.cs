@@ -11,5 +11,6 @@ namespace DomainModel
         public int Salary { get; set; }
 
         public Classroom? Classroom { get; set; }
+        public int? ClassroomID { get; set; }
     }
 }
