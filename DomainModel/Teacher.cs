@@ -9,5 +9,7 @@ namespace DomainModel
 
         [Range(1000, 3000)]
         public int Salary { get; set; }
+
+        public Classroom? Classroom { get; set; }
     }
 }
