@@ -21,5 +21,15 @@ namespace Dal
         {
         }
         #endregion
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if(!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=SchoolDb;Integrated Security=true;");
+        //    }
+
+        //    base.OnConfiguring(optionsBuilder);
+        //}
     }
 }
